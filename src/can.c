@@ -1,13 +1,14 @@
-#include <stdint.h>
 #include "can.h"
+#include <stdint.h>
+#include <stdio.h>
 
 int
 encode_engine_state (struct can_frame *frame, int rpm, int load) {
 	frame->id = CAN_ID_ENGINE_STATE;
-        frame->dlc = CAN_DLC_ENGINE_STATE;
+	frame->dlc = CAN_DLC_ENGINE_STATE;
 	frame->data[0] = rpm >> 8;
 	frame->data[1] = rpm & 0xFF;
-        frame->data[2] = load;
+	frame->data[2] = load;
 	return 0;
 }
 
@@ -16,15 +17,15 @@ decode_engine_state (struct can_frame *frame, int *rpm, int *load) {
 	if (frame->id != CAN_ID_ENGINE_STATE)
 		return 1;
 
-        if (frame->dlc != CAN_DLC_ENGINE_STATE)
-                return 2;
+	if (frame->dlc != CAN_DLC_ENGINE_STATE)
+		return 2;
 
 	uint8_t rpm_high = frame->data[0];
 	uint8_t rpm_low = frame->data[1];
 	uint16_t rpm_bits = (rpm_high << 8) | rpm_low;
 
 	*rpm = rpm_bits;
-        *load = frame->data[2];
+	*load = frame->data[2];
 
 	return 0;
 }
@@ -32,10 +33,10 @@ decode_engine_state (struct can_frame *frame, int *rpm, int *load) {
 int
 encode_temps (struct can_frame *frame, int coolant, int iat, int oil) {
 	frame->id = CAN_ID_TEMPS;
-        frame->dlc = CAN_DLC_TEMPS;
-        frame->data[0] = coolant;
-        frame->data[1] = iat;
-        frame->data[2] = oil;
+	frame->dlc = CAN_DLC_TEMPS;
+	frame->data[0] = coolant;
+	frame->data[1] = iat;
+	frame->data[2] = oil;
 	return 0;
 }
 
@@ -44,12 +45,30 @@ decode_temps (struct can_frame *frame, int *coolant, int *iat, int *oil) {
 	if (frame->id != CAN_ID_TEMPS)
 		return 1;
 
-        if (frame->dlc != CAN_DLC_TEMPS)
-                return 2;
+	if (frame->dlc != CAN_DLC_TEMPS)
+		return 2;
 
-        *coolant = frame->data[0];
-        *iat = frame->data[1];
-        *oil = frame->data[2];
+	*coolant = frame->data[0];
+	*iat = frame->data[1];
+	*oil = frame->data[2];
+
+	return 0;
+}
+
+int
+handle_parse_err (enum can_parse_err err) {
+	switch (err) {
+	case 0:
+		break;
+	case 1:
+		printf ("[SRC/CAN.C] ERROR: ID MISMATCH");
+		break;
+	case 2:
+		printf ("[SRC/CAN.C] ERROR: DLC MISMATCH");
+		break;
+	default:
+		break;
+	}
 
 	return 0;
 }
