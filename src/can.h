@@ -26,7 +26,8 @@ int decode_engine_state (struct can_frame *frame, int *rpm, int *load);
 #define CAN_ID_ENGINE_TIMING 0x101
 #define CAN_DLC_ENGINE_TIMING 4
 int encode_engine_timing (struct can_frame *frame, int ckp, int cmp, int knk);
-int decode_engine_timing (struct can_frame *frame, int *ckp, int *cmp, int *knk);
+int decode_engine_timing (struct can_frame *frame, int *ckp, int *cmp,
+			  int *knk);
 
 #define CAN_ID_ENGINE_PRESSURES 0x102
 #define CAN_DLC_ENGINE_PRESSURES 4

@@ -2,10 +2,10 @@
 #define TPS_SENSOR_H
 
 struct tps_sensor {
-        float v_min;
-        float v_max;
+	float v_min;
+	float v_max;
 
-        float current_percent;
+	float current_percent;
 };
 
 #define DBW_SLEW 1.5

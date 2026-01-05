@@ -2,8 +2,8 @@
 #define BAT_SENSOR_H
 
 struct bat_sensor {
-        float v_min;
-        float v_max;
+	float v_min;
+	float v_max;
 };
 
 void bat_sensor_init (struct bat_sensor *bat);

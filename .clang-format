@@ -1,0 +1,9 @@
+Language: C
+BasedOnStyle: GNU
+IndentWidth: 8
+TabWidth: 8
+UseTab: Always
+BreakBeforeBraces: Attach
+ColumnLimit: 80
+AllowShortFunctionsOnASingleLine: false
+
